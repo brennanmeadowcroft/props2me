@@ -2,17 +2,21 @@ class Api::BadgesController < ApplicationController
   before_action :set_badge, only: [:show, :edit, :update, :destroy]
 
   def index
-    @badges = Badge.all
+    if !params[:user_id].nil?
+      @badges = Badge.find_all_by_user_id(params[:user_id])
+    else
+      @badges = Badge.all
+    end
+    respond_to do |format|
+      format.json { render json: @badges }
+    end
   end
 
   def show
-  end
-
-  def new
-    @badge = Badge.new
-  end
-
-  def edit
+    @badge = Badge.find(params[:id])
+    respond_to do |format|
+      format.json { render json: @badge }
+    end
   end
 
   def create
