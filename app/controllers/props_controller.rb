@@ -69,6 +69,6 @@ class PropsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def prop_params
-      params[:prop]
+      params.require(:prop).params(:goal_id, :comments)
     end
 end

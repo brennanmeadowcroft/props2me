@@ -11,6 +11,54 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 0) do
+ActiveRecord::Schema.define(version: 20140314023327) do
+
+  create_table "badges", force: true do |t|
+    t.string   "name"
+    t.string   "description"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "badges_users", force: true do |t|
+    t.integer "badge_id"
+    t.integer "user_id"
+  end
+
+  create_table "goals", force: true do |t|
+    t.integer  "user_id"
+    t.string   "name"
+    t.string   "description"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "props", force: true do |t|
+    t.integer  "goal_id"
+    t.string   "comments"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "props_users", force: true do |t|
+    t.integer  "user_id"
+    t.integer  "prop_id"
+    t.integer  "anonymous_flag"
+    t.integer  "recipient_flag"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "users", force: true do |t|
+    t.string   "first_name"
+    t.string   "last_name"
+    t.string   "position"
+    t.string   "email"
+    t.integer  "active"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "users", ["email"], name: "index_users_on_email", unique: true
 
 end

@@ -1,13 +1,11 @@
 Props2me::Application.routes.draw do
   resources :props_users
-
   resources :props
-
   resources :badges
-
   resources :goals
-
   resources :users
+
+  root 'static_pages#index'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

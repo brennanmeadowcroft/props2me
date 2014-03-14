@@ -3,7 +3,7 @@ class CreatePropsUsers < ActiveRecord::Migration
     create_table :props_users do |t|
       t.integer :user_id
       t.integer :prop_id
-      t.integer :anoymous_flag
+      t.integer :anonymous_flag
       t.integer :recipient_flag
       t.timestamps
     end

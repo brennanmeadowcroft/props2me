@@ -69,6 +69,6 @@ class GoalsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def goal_params
-      params[:goal]
+      params.require(:goal).params(:user_id, :name, :description)
     end
 end

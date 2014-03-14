@@ -69,6 +69,6 @@ class PropsUsersController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def props_user_params
-      params[:props_user]
+      params.require(:props_user).params(:user_id, :prop_id, :recipient_flag, :anonymous_flag)
     end
 end
