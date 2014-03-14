@@ -1,0 +1,8 @@
+<a href="#/users/">Back to users</a>
+<h1>{{ user.first_name }} {{ user.last_name }}</h1>
+<p><strong>{{ user.position }}</strong></p>
+<br />
+<div ng-controller="GoalsController">
+  <h3>Goals</h3>
+  <p ng-repeat="goal in userGoals(user.id)">{{ goal.description }}</p>
+</div>

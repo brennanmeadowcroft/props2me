@@ -1,9 +1,10 @@
 Props2me::Application.routes.draw do
-  resources :props_users
-  resources :props
-  resources :badges
-  resources :goals
-  resources :users
+  namespace :api do
+    resources :props
+    resources :badges
+    resources :goals
+    resources :users
+  end
 
   root 'static_pages#index'
 
