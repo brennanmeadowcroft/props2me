@@ -1,19 +1,12 @@
 Props2me::Application.routes.draw do
   namespace :api do
-    resources :users do
-      resources :props
-      resources :badges, only: [:index, :show]
-      resources :goals, only: [:index, :show, :create]
-    end
-    resources :goals do
-      resources :props, only: [:count, :create]
-    end
+    resources :users
+    resources :props
     resources :badges
+    resources :goals
   end
 
   root 'static_pages#index'
-
-  get 'api/goals/:goal_id/props/count' => 'api/props#count'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

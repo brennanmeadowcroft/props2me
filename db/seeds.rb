@@ -12,6 +12,7 @@ User.create(email:'hayley.davis@datalogix.com', first_name:'Hayley', last_name:'
 Goal.create(user_id:1, name:'Be Awesome', description:'I want to be more awesome')
 Goal.create(user_id:2, name:'Help my team', description:'I want to make my team more effective')
 Goal.create(user_id:3, name:'Learn stuff', description:'I want to know ALL THE THINGS!')
+Goal.create(user_id:3, name:'Do cool things', description: 'I want to do stuff that people say, "wow thats cool"')
 
 Prop.create(goal_id:1)
 Prop.create(goal_id:2, comments:'Good Job!')
