@@ -1,5 +1,6 @@
 class Api::UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update, :destroy]
+  before_filter :restrict_access
 
   def index
     @users = User.all
@@ -53,5 +54,10 @@ class Api::UsersController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def user_params
       params.require(:user).params(:email, :first_name, :last_name, :position, :active)
+    end
+
+    def restrict_access
+      api_key = ApiKey.find_by_access_token(params[:access_token])
+      head :unauthorized unless api_key
     end
 end

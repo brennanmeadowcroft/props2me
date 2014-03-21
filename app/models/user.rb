@@ -4,4 +4,5 @@ class User < ActiveRecord::Base
   has_and_belongs_to_many :badges
   has_many :props_users
   has_many :props, through: :props_users
+  has_one :api_key
 end

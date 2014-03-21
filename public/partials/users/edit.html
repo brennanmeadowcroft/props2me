@@ -1,0 +1,16 @@
+<h1>Edit Profile</h1>
+<form ng-submit="save_user()">
+<!--  <input type="hidden" name="id" ng-model="user.id" /> -->
+  <label for="first_name">First Name:
+  <input type="text" name="first_name" ng-model="user_edit.first_name" ng-value="user_edit.first_name" /><br />
+  <label for="last_name">Last Name:
+  <input type="text" name="last_name" ng-model="user_edit.last_name" ng-value="user_edit.last_name"/><br />
+  <label for="email">Email:
+  <input type="text" name="email" ng-model="user_edit.email" ng-value="user_edit.email"/><br />
+  <label for="position">Position:
+  <input type="text" name="position" ng-model="user_edit.position" ng-value="user_edit.position"/><br />
+  <button type="submit">Save</button>
+  <a href="#/users/{{user_edit.id}}">Cancel</a>
+</form>
+
+{{ user_edit }}

@@ -1,5 +1,6 @@
 class Api::GoalsController < ApplicationController
   before_action :set_goal, only: [:show, :edit, :update, :destroy]
+  before_filter :restrict_access
 
   def index
     if !params[:user_id].nil?
@@ -57,5 +58,10 @@ class Api::GoalsController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def goal_params
       params.require(:goal).params(:user_id, :name, :description)
+    end
+
+    def restrict_access
+      api_key = ApiKey.find_by_access_token(params[:access_token])
+      head :unauthorized unless api_key
     end
 end

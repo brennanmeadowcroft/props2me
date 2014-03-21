@@ -1,5 +1,6 @@
 class Api::PropsUsersController < ApplicationController
   before_action :set_props_user, only: [:show, :edit, :update, :destroy]
+  before_filter :restrict_access
 
   def index
     @props_users = PropsUser.all
@@ -46,5 +47,10 @@ class Api::PropsUsersController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def props_user_params
       params.require(:props_user).params(:user_id, :prop_id, :recipient_flag, :anonymous_flag)
+    end
+
+    def restrict_access
+      api_key = ApiKey.find_by_access_token(params[:access_token])
+      head :unauthorized unless api_key
     end
 end

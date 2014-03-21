@@ -1,5 +1,6 @@
 class Api::PropsController < ApplicationController
   before_action :set_prop, only: [:show, :edit, :update, :destroy]
+  before_filter :restrict_access
 
   def index
     if !params[:user_id].nil?
@@ -68,5 +69,10 @@ class Api::PropsController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def prop_params
       params.require(:prop).params(:goal_id, :comments)
+    end
+
+    def restrict_access
+      api_key = ApiKey.find_by_access_token(params[:access_token])
+      head :unauthorized unless api_key
     end
 end
