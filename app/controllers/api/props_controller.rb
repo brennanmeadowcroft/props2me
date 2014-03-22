@@ -32,21 +32,28 @@ class Api::PropsController < ApplicationController
   end
 
   def create
-    @prop = Prop.new(prop_params)
+    @prop = Prop.create(goal_id: params[:goal_id], comments: params[:comments])
+    @prop.props_users.create(user_id: params[:user_id], anonymous_flag: 0, recipient_flag: 1)
+
+    #Attempt to find the user who provided the info
+    user = User.find_by_email(params[:email])
+    # If a user can't be found but they provided an email
+    if user.nil?
+      user = User.create(email: params[:email], active: 0)
+      # If a user can be created, set the id for the props otherwise set it blank
+      if user.save
+        uid = user.id
+      else
+        uid = nil
+      end
+    else
+      uid = user.id
+    end
+    @prop.props_users.create(user_id: uid, anonymous_flag: params[:anonymous_flag], recipient_flag: 0)
 
     respond_to do |format|
       if @prop.save
-        format.json { render action: 'show', status: :created, location: @prop }
-      else
-        format.json { render json: @prop.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-
-  def update
-    respond_to do |format|
-      if @prop.update(prop_params)
-        format.json { head :no_content }
+        format.json { render json: @prop, status: :created }
       else
         format.json { render json: @prop.errors, status: :unprocessable_entity }
       end
@@ -68,7 +75,7 @@ class Api::PropsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def prop_params
-      params.require(:prop).permit(:goal_id, :comments)
+      params.permit(:goal_id, :comments, :user_id, :anonymous_flag)
     end
 
     def restrict_access

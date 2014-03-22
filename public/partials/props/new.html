@@ -1,15 +1,33 @@
 <h1>Give Props</h1>
-<p>Notice {{ user.first_name }} making progress towards a goal?  Give them props!</p>
+<p>Notice <strong>{{ user.first_name }}</strong> making progress towards their goal to <strong>"{{ goal.name }}"</strong>?  Give them props!</p>
 <form>
-  <label for="user">User:
-  <select name="user" ng-model="user" ng-options="u.first_name for u in users"></select><br />
-  <label for="goal">Goal:
-  <select name="goal" ng-model="goal" ng-options="g.description for g in goals"></select><br />
+  <input type="hidden" ng-model="formData.user_id" value="{{ user.id }}">
+  <input type="hidden" ng-model="formData.goal_id" value="{{ goal.id }}">
   <p>Additional feedback helps {{ user.first_name }} to put context around the props
-    and be able to continue do the things you appreciated.</p>
-  <label for="email">Your Email: <input type="text" name="email" /><br />
-  <label for="comments">Comments: <input type="text"name="comments" /><br />
+    and be able to continue do the things you appreciated. <a ng-click="feedbackTip=true">What is good feedback?</a></p>
+  <div class="well" ng-show="feedbackTip">
+    <h4>What is good feedback?</h4>
+    <ul>
+      <li><strong>Feedback should be clear</strong> - Say what you mean</li>
+      <li><strong>Don't sandwich the feedback</strong></li>
+    </ul>
+    <a ng-click="feedbackTip=false">Got It!</a>
+  </div>
+  <div class="form-group">
+    <div ng-show="anonFlag">
+      <label for="email">Your Email: <input type="text" name="email" ng-model="formData.email" class="form-control"/>
+    </div>
+    <input type="checkbox" value="1" ng-model="formData.anonymous_flag" ng-True-Value="1" ng-False-Value="0" ng-change="toggleAnon()"/> I wish to remain anonymous
+    <div ng-show="anonCheck">
+      <p class="alert alert-warning">Are you sure? Putting in your email will help {{ user.first_name }} better understand your comments.</p>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="comments">Comments: <textarea name="comments" ng-model="formData.comments" class="form-control"></textarea><br />
+  </div>
 
-  <button type="submit" class="btn">Submit</button>
+  <button type="submit" class="btn" ng-click="create()">Submit</button>
   <a href="#/users/{{user.id}}">Cancel</a>
 </form>
+
+{{ formData }}

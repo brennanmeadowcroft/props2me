@@ -43,11 +43,38 @@ props.controller('PropsDetailController', function($scope, $routeParams) {
 
 });
 
-props.controller('PropsEditController', function($scope, $routeParams, Restangular) {
-  var allUsers = Restangular.all('users');
-  allUsers.getList().then(function(users) {
-    $scope.users = users;
+props.controller('PropsEditController', function($scope, $routeParams, $location, Restangular) {
+  $scope.feedbackTip = false; // Set the feedbackTip to false to hide the content initially
+  $scope.anonFlag = true;
+  $scope.anonCheck = !$scope.anonFlag;
+  $scope.formData = {};
+  var allProps = Restangular.all('props');
+  var oneUser = Restangular.one('users', $routeParams.uid);
+  oneUser.get().then(function(user) {
+    $scope.user = user;
   });
+  var oneGoal = Restangular.one('goals', $routeParams.gid);
+  oneGoal.get().then(function(goal) {
+    $scope.goal = goal.goal;
+  });
+  $scope.create = function() {
+//    if($scope.formData.anonymous_flag = true) { anon = 1 } else { anon = 0 }
+    new_props = {
+                  "goal_id": $scope.goal.id,
+                  "user_id": $scope.user.id,
+                  "email": $scope.formData.email,
+                  "comments": $scope.formData.comments,
+                  "anonymous_flag": $scope.formData.anonymous_flag
+                };
+    allProps.post(new_props);
+    user_path = '/users/' + $scope.user.id;
+    $location.path(user_path);
+  };
+  $scope.toggleAnon = function() {
+    // Handles showing info based on user's choice of anonymity
+    $scope.anonFlag = !$scope.anonFlag;
+    $scope.anonCheck = !$scope.anonCheck;
+  }
 });
 
 props.controller('GoalsController', function($scope, $routeParams, GoalsFactory) {});
