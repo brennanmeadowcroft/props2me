@@ -1,0 +1,12 @@
+<h1>Create A Goal</h1>
+<form>
+  <label for="goal_name">Goal Name:
+  <input type="text" name="name" ng-model="formData.name" /><br />
+  <label for="goal_description">Goal Description:
+  <input type="text" name="description" ng-model="formData.description" /><br />
+  <button type="submit" class="btn" ng-click="create()">Save</button>
+  <a href="#/users/{{user_id}}">Cancel</a>
+</form>
+
+
+{{ formData }}

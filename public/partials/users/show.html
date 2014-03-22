@@ -17,17 +17,22 @@
     <br />
     <div class="goals col-md-11">
       <h3>Goals:</h3>
-      <div ng-repeat="goal in goals" class="goal-details row">
-        <div class="col-md-5">
-          <p class="goal-description">{{ goal.name }}<a href="#/goals/{{goal.id}}/edit">(Edit)</a></p>
-        </div>
-        <div class="col-md-5">
-          <p class="prop-count">Number of Props: <span class="count">{{ goal.props_count }}</span></p>
-        </div>
-        <div class="col-md-2">
-          <p><a href="#/props/new?uid={{ user.id }}&gid={{ goal.id }}">Give Props</a></p>
-        </div>
-      </div>
+      <accordion close-others="oneAtATime">
+        <accordion-group ng-repeat="goal in goals" heading="{{goal.name}}">
+          <div class="col-md-5">
+            <p class="goal-description">{{ goal.description }}</p>
+          </div>
+          <div class="col-md-5">
+            <p class="prop-count">Number of Props: <span class="count">{{ goal.props_count }}</span></p>
+          </div>
+          <div class="col-md-2">
+            <p>
+              <a href="#/props/new?uid={{ user.id }}&gid={{ goal.id }}">Give Props</a> |
+              <a ng-click="open(1)">Edit Goal</a>
+            </p>
+          </div>
+        </accordian-group>
+      </accordion>
     </div>
     <div class="badges col-md-11">
       <h3>Badges:</h3>

@@ -16,7 +16,7 @@ class Api::GoalsController < ApplicationController
   def show
     @goal = Goal.find(params[:id])
     respond_to do |format|
-      format.json { render json: @goal }
+      format.json { render json: @goal, root: false}
     end
   end
 
@@ -25,7 +25,7 @@ class Api::GoalsController < ApplicationController
 
     respond_to do |format|
       if @goal.save
-        format.json { render action: 'show', status: :created, location: @goal }
+        format.json { render json: @goal, status: :created, root: false }
       else
         format.json { render json: @goal.errors, status: :unprocessable_entity }
       end
@@ -35,6 +35,19 @@ class Api::GoalsController < ApplicationController
   def update
     respond_to do |format|
       if @goal.update(goal_params)
+        format.json { head :no_content }
+      else
+        format.json { render json: @goal.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  def complete
+    @goal = Goal.find(params[:id])
+    @goal.complete_flag = !@goal.complete_flag
+
+    respond_to do |format|
+      if @goal.save
         format.json { head :no_content }
       else
         format.json { render json: @goal.errors, status: :unprocessable_entity }

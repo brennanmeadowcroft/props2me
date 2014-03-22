@@ -1,0 +1,14 @@
+<div class="modal-header">
+    <h3>Edit Goal</h3>
+</div>
+<div class="modal-body">
+  <form>
+    <input type="hidden" ng-model="user.id" />
+    <label for="goal_name">Goal Name:
+    <input type="text" name="goal_name" ng-model="goal.name" /><br />
+    <label for="goal_description">Goal Description:
+    <input type="text" name="goal_description" ng-model="goal.description" /><br />
+    <button type="submit" class="btn" ng-click="save()">Save</button>
+    <button class="btn" ng-click="cancel()">Cancel</button>
+  </form>
+</div>

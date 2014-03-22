@@ -1,4 +1,4 @@
-var props = angular.module('props', ['ngRoute', 'ngResource', 'restangular']);
+var props = angular.module('props', ['ngRoute', 'ngResource', 'restangular', 'ui.bootstrap']);
 
 props.config(['$routeProvider',
   function($routeProvider, RestangularProvider) {
@@ -43,17 +43,17 @@ props.config(['$routeProvider',
         templateUrl: 'partials/props/new.html',
         controller: 'PropsEditController'
       }).
+      when('/goals/new', {
+        templateUrl: 'partials/goals/new.html',
+        controller: 'NewGoalController'
+      }).
       when('/goals/:goalId', {
         templateUrl: 'partials/goals/show.html',
-        controller: 'AdminController'
+        controller: 'GoalDetailController'
       }).
       when('/goals/:goalId/edit', {
         templateUrl: 'partials/goals/edit.html',
-        controller: 'GoalController'
-      }).
-      when('/goals/:goalId/new/', {
-        templateUrl: 'partials/goals/new.html',
-        controller: 'AdminController'
+        controller: 'GoalDetailController'
       }).
       when('/login', {
         templateUrl: 'partials/sessions/new.html',
