@@ -1,0 +1,80 @@
+.users {}
+
+.users ul {
+  list-style: none;
+  padding: 0;
+}
+
+.users ul li {
+  font-size: 1.3em;
+  border: 1px solid #999999;
+  background: #eeeeee;
+  margin-bottom: 10px;
+}
+
+.users ul li a:hover {
+  text-decoration: none;
+}
+
+.user h1 {
+  border-bottom: 1px solid #CCCCCC;
+}
+
+.user .sidebar {}
+
+.user .sidebar .avatar img {
+  display: block;
+  margin: 10px auto 15px auto;
+}
+
+.user .sidebar .menu {
+  border: 1px solid #000000;
+  border-radius: 5px;
+  background-color: #EEEEEE;
+  margin: 2px;
+}
+
+.user .sidebar .menu ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.user .sidebar .menu li {
+  border-top: 1px solid #000000;
+  margin: 0;
+  padding: 5px;
+}
+
+.user .sidebar .menu li:first-child {
+  border-top: none;
+
+}
+
+.user .profile {}
+
+
+.user .profile .goals, .user.profile.badges {
+  margin: auto;
+}
+
+.user.profile.goals h3, .user.profile.badges h3 {}
+
+.user .profile .goals .goal-details {
+  padding-top: 0.5em;
+  padding-bottom: 0;
+  margin-left: 2px;
+  margin-bottom: 5px;
+  border-left: 3px solid #FF0000;
+}
+
+.user .profile .goals .goal-details p {}
+
+.user .profile .goals .goal-details p.goal-description {}
+
+.user .profile .goals .goal-details p.prop-count {}
+
+.user .profile .goals .goal-details p.prop-count .count {
+  color: #FF0000;
+  font-weight: bold;
+}

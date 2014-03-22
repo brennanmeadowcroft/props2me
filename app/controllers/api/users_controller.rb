@@ -1,6 +1,6 @@
 class Api::UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update, :destroy]
-  before_filter :restrict_access
+#  before_filter :restrict_access
 
   def index
     @users = User.all
@@ -12,7 +12,7 @@ class Api::UsersController < ApplicationController
   def show
     @user = User.find(params[:id])
     respond_to do |format|
-      format.json { render json: @user, serializer: UserDetailSerializer }
+      format.json { render json: @user, serializer: UserDetailSerializer, root: false }
     end
   end
 
@@ -53,7 +53,7 @@ class Api::UsersController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def user_params
-      params.require(:user).params(:email, :first_name, :last_name, :position, :active)
+      params.require(:user).permit(:email, :first_name, :last_name, :position, :active)
     end
 
     def restrict_access

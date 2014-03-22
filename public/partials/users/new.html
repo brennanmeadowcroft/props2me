@@ -1,0 +1,17 @@
+<div class="user row">
+  <div class="profile col-md-12">
+    <h1>Create a user!</h1>
+    <form>
+      <label for="first_name">First Name:
+      <input type="text" name="first_name" ng-model="new_user.first_name" /><br />
+      <label for="last_name">Last Name:
+      <input type="text" name="last_name" ng-model="new_user.last_name" /><br />
+      <label for="email">Email:
+      <input type="text" name="email" ng-model="new_user.email" /><br />
+      <label for="position">Position:
+      <input type="text" name="position" ng-model="new_user.position" /><br />
+      <button type="submit" class="btn" ng-click="addUser()">Save</button>
+    </form>
+  </div>
+</div>
+{{ new_user }}

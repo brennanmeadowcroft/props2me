@@ -1,9 +1,9 @@
 Props2me::Application.routes.draw do
   namespace :api do
-    resources :users
-    resources :props
-    resources :badges
-    resources :goals
+    resources :users, defaults: {format: :json}
+    resources :props, defaults: {format: :json}
+    resources :badges, defaults: {format: :json}
+    resources :goals, defaults: {format: :json}
   end
 
   root 'static_pages#index'

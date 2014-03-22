@@ -1,8 +1,37 @@
-<a href="#/users/">Back to users</a>
-<h1>{{ user.first_name }} {{ user.last_name }}</h1>
-<p><strong>{{ user.position }}</strong></p>
-<br />
-<div ng-controller="GoalsController">
-  <h3>Goals</h3>
-  <p ng-repeat="goal in userGoals(user.id)">{{ goal.description }}</p>
+<div class="user row">
+  <div class="sidebar col-md-2">
+    <div class="avatar row">
+      <img src="http://placekitten.com/150/150" class="text-center"/>
+    </div>
+    <div class="row menu">
+      <ul>
+        <li><a href="#/props/new?uid={{user.id}}">Give Props</a></li>
+        <li><a href="#/goals/new?uid={{user.id}}">Add New Goal</a></li>
+        <li><a href="#/users/{{user.id}}/edit">Edit Profile</a></li>
+        <li><a href="#/users/{{user.id}}/change_pass">Change Password</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="profile col-md-10">
+    <h1>{{ user.first_name }} {{ user.last_name }}, {{ user.position }}</h1>
+    <br />
+    <div class="goals col-md-11">
+      <h3>Goals:</h3>
+      <div ng-repeat="goal in goals" class="goal-details row">
+        <div class="col-md-5">
+          <p class="goal-description">{{ goal.name }}<a href="#/goals/{{goal.id}}/edit">(Edit)</a></p>
+        </div>
+        <div class="col-md-5">
+          <p class="prop-count">Number of Props: <span class="count">{{ goal.prop_count }}</span></p>
+        </div>
+        <div class="col-md-2">
+          <p><a href="#/props/new?uid={{ user.id }}&gid={{ goal.id }}">Give Props</a></p>
+        </div>
+      </div>
+    </div>
+    <div class="badges col-md-11">
+      <h3>Badges:</h3>
+      <p ng-if="badges.length == 0">You have no badges!</p>
+    </div>
+  </div>
 </div>

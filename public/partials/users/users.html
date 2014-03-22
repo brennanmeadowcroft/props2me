@@ -1,6 +1,9 @@
-<h1>Users</h1>
-<ul>
-  <li ng-repeat="user in users">
-    <a href="#/users/{{ user.id }}">{{ user.first_name }} {{ user.last_name }}</a>
-  </li>
-<ul>
+<div class="users">
+  <h1>Users</h1>
+  <ul>
+    <li ng-repeat="user in users">
+      <img src="http://placekitten.com/50/50">
+      <a href="#/users/{{ user.id }}">{{ user.first_name }} {{ user.last_name }}</a>
+    </li>
+  <ul>
+</div>

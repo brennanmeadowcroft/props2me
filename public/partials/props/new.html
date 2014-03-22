@@ -1,0 +1,15 @@
+<h1>Give Props</h1>
+<p>Notice {{ user.first_name }} making progress towards a goal?  Give them props!</p>
+<form>
+  <label for="user">User:
+  <select name="user" ng-model="user" ng-options="u.first_name for u in users"></select><br />
+  <label for="goal">Goal:
+  <select name="goal" ng-model="goal" ng-options="g.description for g in goals"></select><br />
+  <p>Additional feedback helps {{ user.first_name }} to put context around the props
+    and be able to continue do the things you appreciated.</p>
+  <label for="email">Your Email: <input type="text" name="email" /><br />
+  <label for="comments">Comments: <input type="text"name="comments" /><br />
+
+  <button type="submit" class="btn">Submit</button>
+  <a href="#/users/{{user.id}}">Cancel</a>
+</form>

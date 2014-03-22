@@ -1,0 +1,43 @@
+.admin {}
+
+.admin .sidebar {}
+
+.admin ul {
+  list-style: none;
+  padding: 0;
+}
+
+.admin .content {
+  border-left: 1px solid #999999;
+}
+
+
+.badges ul {
+  list-style: none;
+  padding: 0;
+}
+
+.badges ul li {
+  font-size: 1.3em;
+  border: 1px solid #999999;
+  background: #eeeeee;
+  margin-bottom: 10px;
+}
+
+.badges ul li a:hover {
+  text-decoration: none;
+}
+
+.badge-detail .badge-name .options {
+  border-bottom: 1px solid #000000;
+}
+
+.badge-detail .badge-name .options ul {
+  list-style-type: none;
+}
+
+.badge-detail .badge-name .options li {
+  padding-right: 5px;
+  border-right: 1px solid #000000;
+  display: inline;
+}
