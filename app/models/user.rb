@@ -4,5 +4,14 @@ class User < ActiveRecord::Base
   has_and_belongs_to_many :badges
   has_many :props_users
   has_many :props, through: :props_users
-  has_one :api_key
+  has_many :api_key
+
+  has_secure_password
+
+  before_save :init
+
+  private
+    def init
+      self.admin ||= 0
+    end
 end

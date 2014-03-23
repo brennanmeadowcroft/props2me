@@ -1,6 +1,9 @@
 class ApiKey < ActiveRecord::Base
   before_create :generate_access_token
-  before_save :set_expiration_date
+  before_create :set_expiration_date
+
+  # For now, I don't care about api_keys that expired prior to today
+#  default_scope { where("expiration_date > ?", Time.now) }
 
   belongs_to :user
 

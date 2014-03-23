@@ -1,6 +1,8 @@
 class Api::UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update, :destroy]
-#  before_filter :restrict_access
+  before_filter :restrict_access, only: [:update, :destroy]
+  before_filter :admin_or_correct_user, only: [:update]
+  before_filter :admin_user, only: [:delete]
 
   def index
     @users = User.all
@@ -58,6 +60,24 @@ class Api::UsersController < ApplicationController
 
     def restrict_access
       api_key = ApiKey.find_by_access_token(params[:access_token])
+      @current_user = api_key.user
       head :unauthorized unless api_key
+    end
+
+    def correct_user
+      user = User.find(params[:id])
+      current_user = ApiKey.find_by_access_token(params[:access_token]).user
+      head :unauthorized unless current_user.id == user.id
+    end
+
+    def admin_or_correct_user
+      user = User.find(params[:id])
+      current_user = ApiKey.find_by_access_token(params[:access_token]).user
+      head :unauthorized unless (current_user.id == user.id or current_user.admin == 1)
+    end
+
+
+    def admin_user
+      head :unauthorized unless @current_user.admin == 1
     end
 end

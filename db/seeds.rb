@@ -5,9 +5,9 @@
 #
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
-User.create(email:'brennan.meadowcroft@datalogix.com', first_name:'Brennan', last_name:'Meadowcroft', position:'Analyst', active: 1)
-User.create(email:'phanny.chan@datalogix.com', first_name:'Phanny', last_name:'Chan', position:'Director', active:1)
-User.create(email:'hayley.davis@datalogix.com', first_name:'Hayley', last_name:'Davis', position:'Assoc Analyst', active:1)
+User.create(email:'brennan.meadowcroft@datalogix.com', first_name:'Brennan', last_name:'Meadowcroft', position:'Analyst', active: 1, admin: 1, password:'supergeo', password_confirmation:'supergeo')
+User.create(email:'phanny.chan@datalogix.com', first_name:'Phanny', last_name:'Chan', position:'Director', active:1, password:'flexteam', password_confirmation:'flexteam')
+User.create(email:'hayley.davis@datalogix.com', first_name:'Hayley', last_name:'Davis', position:'Assoc Analyst', active:1, password:'flexteam', password_confirmation:'flexteam')
 
 Goal.create(user_id:1, name:'Be Awesome', description:'I want to be more awesome')
 Goal.create(user_id:2, name:'Help my team', description:'I want to make my team more effective')

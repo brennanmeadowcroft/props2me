@@ -7,7 +7,8 @@ Props2me::Application.routes.draw do
   end
 
   root 'static_pages#index'
-  put 'api/goals/:id/complete' => 'goals#complete'
+  post '/login' => 'sessions#create', defaults: {format: :json}
+  put 'api/goals/:id/complete' => 'goals#complete', defaults: {format: :json}
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

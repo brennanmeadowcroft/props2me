@@ -30,7 +30,11 @@
           <li class="active"><a href="#/users">Users</a></li>
           <li><a href="#/users/1">Profile</a></li>
           <li><a href="#/admin/">Admin</a></li>
-          <li ng-controller="SessionsController"><a href="" ng-click="logoutUser()">Logout</a></li>
+          <li ng-controller="LoginController">
+            <div ng-show="getUserAuthentication()">
+              <a href="" ng-click="logoutUser()">Logout</a>
+            </div>
+          </li>
         </ul>
       </div><!--/.nav-collapse -->
     </div><!--/.container-fluid -->
