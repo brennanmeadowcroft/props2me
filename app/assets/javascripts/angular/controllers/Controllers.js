@@ -7,6 +7,7 @@ props.controller('UsersController', function($scope, Restangular, UserService) {
 });
 
 props.controller('UserDetailController', function($scope, $routeParams, $location, $modal, $log, Restangular, UserService) {
+  $scope.credentials = {};
   $scope.current_user = UserService.getCurrentUser();
   var singleUser = Restangular.one('users', $routeParams.userId);
 
@@ -46,6 +47,19 @@ props.controller('UserDetailController', function($scope, $routeParams, $locatio
       $location.path(user_path);
     });
   };
+  $scope.changePassword = function() {
+    var new_creds = {"email":$scope.user.email,
+                    "old_password":$scope.credentials.old_password,
+                    "password":$scope.credentials.new_password,
+                    "password_confirmation":$scope.credentials.new_password_confirmation};
+
+    var password_path = 'change_password';
+    console.log($scope.current_user.api_token);
+    singleUser.customPUT(elem=new_creds, path=password_path, headers={'Authorization':'Token', 'access_token':$scope.current_user.api_token}).then(function() {
+      var user_path = '/users/'+$scope.user.id;
+      $location.path(user_path);
+    })
+  }
   // Todo: Get this working... it isn't recognizing custom put
   $scope.completeGoal = function(goal_id) {
     // Remove goal from goals and notify user

@@ -8,7 +8,8 @@ Props2me::Application.routes.draw do
 
   root 'static_pages#index'
   post '/login' => 'sessions#create', defaults: {format: :json}
-  put 'api/goals/:id/complete' => 'goals#complete', defaults: {format: :json}
+  put 'api/goals/:id/complete' => 'api/goals#complete', defaults: {format: :json}
+  put 'api/users/:id/change_password' => 'api/users#change_password', defaults: {format: :json}
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

@@ -1,1 +1,29 @@
-<h1>Change Your Password</h1>
+<div class="user row">
+  <div class="sidebar col-md-2">
+    <div class="avatar row">
+      <img src="http://placekitten.com/150/150" class="text-center"/>
+    </div>
+    <div class="row menu">
+      <ul>
+        <li><a href="#/props/new?uid={{user.id}}">Give Props</a></li>
+        <li><a href="#/users/{{user.id}}/edit">Edit Profile</a></li>
+        <li><a href="#/users/{{user.id}}/change_pass">Change Password</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="profile col-md-10">
+    <h1>Change Password</h1>
+    <form ng-submit="changePassword()">
+      <label for="old_password">Old Password:
+      <input type="text" name="old_password" ng-model="credentials.old_password"/><br />
+      <label for="last_name">New Password:
+      <input type="text" name="password" ng-model="credentials.new_password"/><br />
+      <label for="email">Confirm New Password:
+      <input type="text" name="password_confirmation" ng-model="credentials.new_password_confirmation"/><br />
+      <button type="submit" class="btn">Save</button>
+      <a href="#/users/{{user.id}}" class="btn">Cancel</a>
+    </form>
+  </div>
+</div>
+
+{{ credentials }}
