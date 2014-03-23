@@ -26,14 +26,13 @@
         <a class="navbar-brand" href="#">Props2Me</a>
       </div>
       <div class="navbar-collapse collapse">
-        <ul class="nav navbar-nav navbar-right">
-          <li class="active"><a href="#/users">Users</a></li>
-          <li><a href="#/users/1">Profile</a></li>
-          <li><a href="#/admin/">Admin</a></li>
-          <li ng-controller="LoginController">
-            <div ng-show="getUserAuthentication()">
-              <a href="" ng-click="logoutUser()">Logout</a>
-            </div>
+        <ul ng-controller="LoginController" class="nav navbar-nav navbar-right">
+          <li class="active"><a href="#/users/">Users</a></li>
+          <li ng-if="authenticated()"><a href="#/users/{{current_user.id}}">Profile</a></li>
+          <li ng-if="admin()"><a href="#/admin/">Admin</a></li>
+          <li>
+            <a href="" ng-if="authenticated()" ng-click="logoutUser()">Logout</a>
+            <a href="#/login" ng-if="!authenticated()">Login</a>
           </li>
         </ul>
       </div><!--/.nav-collapse -->

@@ -39,7 +39,9 @@ angular.module('user', [])
     user.email = values.email;
     user.id = values.id;
     user.api_token = values.user_api_key.access_token;
-    if(values.admin == 1) { is_admin = true } else { is_admin = false }
+    user.isAuthenticated=is_authenticated;
+    if(values.admin == 1) { is_admin = true; } else { is_admin = false; }
+    user.isAdmin = is_admin;
   }
   this.logoutUser = function() {
     is_authenticated = false;

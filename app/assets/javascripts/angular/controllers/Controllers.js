@@ -159,8 +159,12 @@ props.controller('NewGoalController', function($scope, $routeParams, $location, 
 props.controller('LoginController', function($scope, $location, Restangular, UserService) {
   $scope.current_user = UserService.getCurrentUser();
   $scope.credentials = {};
-  $scope.current_user = {};
-  $scope.somewhat_current_user = {};
+  $scope.authenticated = function() {
+    return UserService.getUserAuthentication();
+  }
+  $scope.admin = function() {
+    return UserService.getUserAuthentication() && UserService.getUserAdmin();
+  }
   $scope.loginUser = function() {
     var singleUser = Restangular.allUrl('users', '/login');
     singleUser.post({"email":$scope.credentials.email, "password":$scope.credentials.password}).then(function(user) {
@@ -169,7 +173,6 @@ props.controller('LoginController', function($scope, $location, Restangular, Use
       // Set the current user for use around the app
       UserService.setCurrentUser(user);
       $scope.current_user = user;
-      $scope.somewhat_current_user = UserService.getCurrentUser();
 
       user_path = '/users/'+$scope.current_user.id
       $location.path(user_path);
@@ -179,11 +182,11 @@ props.controller('LoginController', function($scope, $location, Restangular, Use
         alert("That email/password combo is incorrect.  Please try again.");
       }
     });
-
-
   };
   $scope.logoutUser = function() {
     UserService.logoutUser();
+    console.log($scope.current_user);
+    $location.path('/users/');
   };
 });
 
