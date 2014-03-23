@@ -6,72 +6,72 @@ props.config(['$routeProvider',
       when('/', {
         templateUrl: 'partials/users/users.html',
         controller: 'UsersController',
-        requireLogin: false
+        requirePermissions: 'public'
       }).
       when('/users/new', {
         templateUrl: 'app/partials/users/new.html',
         controller: 'UsersController',
-        requireLogin: false
+        requirePermissions: 'public'
       }).
       when('/users/:userId', {
         templateUrl: 'partials/users/show.html',
         controller: 'UserDetailController',
-        requireLogin: false
+        requirePermissions: 'public'
       }).
       when('/users/:userId/edit', {
         templateUrl: 'partials/users/edit.html',
         controller: 'UserDetailController',
-        requireLogin: true
+        requirePermissions: 'owner_or_admin'
       }).
       when('/users/:userId/change_pass', {
         templateUrl: 'partials/users/change_pass.html',
         controller: 'UserDetailController',
-        requireLogin: true
+        requirePermissions: 'owner'
       }).
       when('/admin', {
         templateUrl: 'partials/admin/home.html',
         controller: 'AdminController',
-        requireLogin: true
+        requirePermissions: 'admin'
       }).
       when('/badges/', {
         templateUrl: 'partials/badges/show.html',
         controller: 'BadgesController',
-        requireLogin: true
+        requirePermissions: 'admin'
       }).
       when('/badges/:badgeId/edit', {
         templateUrl: 'partials/badges/edit.html',
         controller: 'BadgesController',
-        requireLogin: true
+        requirePermissions: 'admin'
       }).
       when('/badges/new', {
         templateUrl: 'partials/badges/new.html',
         controller: 'BadgesController',
-        requireLogin: true
+        requirePermissions: 'admin'
       }).
       when('/props/new', {
         templateUrl: 'partials/props/new.html',
         controller: 'PropsEditController',
-        requireLogin: false
+        requirePermissions: 'public'
       }).
-      when('/goals/new', {
+      when('/users/:userId/goals/new', {
         templateUrl: 'partials/goals/new.html',
         controller: 'NewGoalController',
-        requireLogin: true
+        requirePermissions: 'owner'
       }).
-      when('/goals/:goalId', {
+      when('/users/:userId/goals/:goalId', {
         templateUrl: 'partials/goals/show.html',
         controller: 'GoalDetailController',
-        requireLogin: false
+        requirePermissions: 'public'
       }).
-      when('/goals/:goalId/edit', {
+      when('/users/:userId/goals/:goalId/edit', {
         templateUrl: 'partials/goals/edit.html',
         controller: 'GoalDetailController',
-        requireLogin: true
+        requirePermissions: 'owner'
       }).
       when('/login', {
         templateUrl: 'partials/sessions/new.html',
         controller: 'LoginController',
-        requireLogin: false
+        requirePermissions: 'public'
       }).
       otherwise({
         redirectTo: '/'
@@ -79,14 +79,24 @@ props.config(['$routeProvider',
   }
 ]);
 
-props.run(['$rootScope', 'UserService', '$location', function($rootScope, UserService, $location){
+props.run(['$rootScope', 'UserService', '$location', '$route', function($rootScope, UserService, $location, $route){
   // Everytime the route in our app changes check auth status
-  $rootScope.$on("$routeChangeStart", function(event, next, current) {
-      // if you're logged out send to login page.
-      if (next.requireLogin && !UserService.getUserAuthentication()) {
+  $rootScope.$on("$routeChangeStart", function(event, next, current, requirePermissions) {
+    user_id = null;
+    user_id = next.pathParams.userId;
+      // if you're logged out send to another page.
+      if (!UserService.isPermitted(next.requirePermissions, user_id)) {
+        // If the user is already logged in, send them to users
+        if(UserService.getUserAuthentication()) {
+          $location.path('/users');
+          event.preventDefault();
+        }
+        else {
+          // If the user is not logged in, send them to login
           $location.path('/login');
           // Keep angular from completing the intended route
           event.preventDefault();
+        }
       }
   });
 }]);

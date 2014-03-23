@@ -90,8 +90,10 @@ props.controller('PropsEditController', function($scope, $routeParams, $location
   });
   var oneGoal = Restangular.one('goals', $routeParams.gid);
   oneGoal.get().then(function(goal) {
-    $scope.goal = goal.goal;
+    $scope.goal = goal;
   });
+  console.log($scope.goal);
+  console.log($scope.user);
   $scope.create = function() {
     new_props = {
                   "goal_id": $scope.goal.id,
@@ -169,7 +171,8 @@ props.controller('LoginController', function($scope, $location, Restangular, Use
       $scope.current_user = user;
       $scope.somewhat_current_user = UserService.getCurrentUser();
 
-      $location.path('/');
+      user_path = '/users/'+$scope.current_user.id
+      $location.path(user_path);
     }, function(response) {
       // There was a problem logging in... notify the user
       if(response.status == 401) {
