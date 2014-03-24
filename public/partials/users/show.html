@@ -3,9 +3,8 @@
     <div class="avatar row">
       <img src="http://placekitten.com/150/150" class="text-center"/>
     </div>
-    <div class="row menu">
+    <div class="row menu" ng-show="isAllowed('owner')">
       <ul>
-        <li><a href="#/props/new">Give Props</a></li>
         <li ng-show="isAllowed('owner_or_admin')"><a href="#/users/{{user.id}}/goals/new">Add New Goal</a></li>
         <li ng-show="isAllowed('owner_or_admin')"><a href="#/users/{{user.id}}/edit">Edit Profile</a></li>
         <li ng-show="isAllowed('owner')"><a href="#/users/{{user.id}}/change_pass">Change Password</a></li>
@@ -14,7 +13,9 @@
   </div>
   <div class="profile col-md-10">
     <div class="flash-messages" ng-hide="messages.length == 0">
-        <li ng-repeat="message in messages" ng-class="message.style">{{ message.text }}</li>
+        <ul>
+          <li ng-repeat="message in messages" ng-class="message.style">{{ message.text }}</li>
+        </ul>
       </ul>
     </div>
 
@@ -39,7 +40,7 @@
         </accordian-group>
       </accordion>
     </div>
-    <div class="badges col-md-11">
+    <div class="badges col-md-11" ng-show="isAllowed('owner')">
       <h3>Badges:</h3>
       <p ng-if="badges.length == 0">You have no badges!</p>
     </div>

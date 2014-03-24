@@ -1,0 +1,7 @@
+body {
+  color: #2C3E50;
+}
+.flash-messages ul {
+  list-style-type: none;
+  padding: 0;
+}
