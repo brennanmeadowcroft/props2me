@@ -1,9 +1,24 @@
-props.controller('UsersController', function($scope, Restangular, UserService) {
+props.controller('UsersController', function($scope, $location, Restangular, UserService) {
   $scope.current_user = UserService.getCurrentUser();
+  $scope.new_user = {};
   var allUsers = Restangular.all('users');
   allUsers.getList().then(function(users) {
     $scope.users = users;
   });
+
+  $scope.add = function() {
+    // var user_params = {"email":$scope.new_user.email,
+    //             "first_name":$scope.new_user.first_name,
+    //             "last_name":$scope.new_user.last_name,
+    //             "position":$scope.new_user.position,
+    //             "password":$scope.new_user.password,
+    //             "password_confirmation":$scope.new_user.password_confirmation};
+    var user_params = {"user":$scope.new_user};
+    allUsers.customPOST(elem=user_params).then(function(user) {
+      var user_path = '/users/'+user.id;
+      $location.path(user_path);
+    });
+  };
 });
 
 props.controller('UserDetailController', function($scope, $routeParams, $location, $modal, $log, Restangular, UserService) {

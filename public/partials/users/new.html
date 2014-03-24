@@ -1,16 +1,20 @@
 <div class="user row">
   <div class="profile col-md-12">
     <h1>Create a user!</h1>
-    <form>
+    <form ng-submit="add()">
       <label for="first_name">First Name:
-      <input type="text" name="first_name" ng-model="new_user.first_name" /><br />
+      <input type="text" name="[user][first_name]" ng-model="new_user.first_name" /><br />
       <label for="last_name">Last Name:
-      <input type="text" name="last_name" ng-model="new_user.last_name" /><br />
+      <input type="text" name="[user][last_name]" ng-model="new_user.last_name" /><br />
       <label for="email">Email:
-      <input type="text" name="email" ng-model="new_user.email" /><br />
+      <input type="text" name="[user][email]" ng-model="new_user.email" /><br />
       <label for="position">Position:
-      <input type="text" name="position" ng-model="new_user.position" /><br />
-      <button type="submit" class="btn" ng-click="addUser()">Save</button>
+      <input type="text" name="[user][position]" ng-model="new_user.position" /><br />
+      <label for="password">Password:
+      <input type="password" name="[user][password]" ng-model="new_user.password" /><br />
+      <label for="password">Confirm Password:
+      <input type="password" name="[user][password_confirmation]" ng-model="new_user.password_confirmation" /><br />
+      <button type="submit" class="btn">Save</button>
     </form>
   </div>
 </div>

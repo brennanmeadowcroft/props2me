@@ -1,5 +1,5 @@
 class Api::UsersController < ApplicationController
-  before_action :set_user, only: [:show, :edit, :update, :destroy]
+  before_action :set_user, only: [:show, :change_password, :edit, :update, :destroy]
   before_filter :restrict_access, only: [:update, :change_password, :destroy]
   before_filter :correct_user, only: [:change_password]
   before_filter :admin_or_correct_user, only: [:update]
@@ -13,18 +13,25 @@ class Api::UsersController < ApplicationController
   end
 
   def show
-    @user = User.find(params[:id])
     respond_to do |format|
       format.json { render json: @user, serializer: UserDetailSerializer, root: false }
     end
   end
 
   def create
-    @user = User.new(user_params)
+    # Check to see if the user has already been created
+    @user = User.find_by_email(params[:user][:email])
+
+    # If they have, update the existing user with information
+    if @user
+      @user.update(user_params)
+    else # If not, create a new one...
+      @user = User.new(user_params)
+    end
 
     respond_to do |format|
       if @user.save
-        format.json { render json: @user, status: :created, serializer: UserDetailSerializer, root: false }
+        format.json { render json: @user, status: :created, root: false }
       else
         format.json { render json: @user.errors, status: :unprocessable_entity }
       end
@@ -32,7 +39,6 @@ class Api::UsersController < ApplicationController
   end
 
   def change_password
-    @user = User.find(params[:id])
     respond_to do |format|
       if @user.authenticate(params[:old_password])
         if @user.update(:password => params[:password], :password_confirmation=>params[:password_confirmation])

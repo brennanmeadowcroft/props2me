@@ -9,7 +9,7 @@ props.config(['$routeProvider',
         requirePermissions: 'public'
       }).
       when('/users/new', {
-        templateUrl: 'app/partials/users/new.html',
+        templateUrl: 'partials/users/new.html',
         controller: 'UsersController',
         requirePermissions: 'public'
       }).
