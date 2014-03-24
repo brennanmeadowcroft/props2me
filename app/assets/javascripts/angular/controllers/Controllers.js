@@ -21,7 +21,9 @@ props.controller('UserDetailController', function($scope, $routeParams, $locatio
   $scope.credentials = {};
   $scope.messages = FlashService.getMessages();
   $scope.current_user = UserService.getCurrentUser();
-  $scope.is_current_user = UserService.isCurrentUser($routeParams.userId);
+  $scope.isAllowed = function(permissions) {
+    return UserService.isPermitted(permissions, $routeParams.userId);
+  }
   var singleUser = Restangular.one('users', $routeParams.userId);
 
   $scope.refreshUser = function() {

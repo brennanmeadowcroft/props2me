@@ -21,7 +21,23 @@ angular.module('user', [])
       default: return false;
     }
   }
-  this.isCurrentUser = function(user_id) {
+  this.isAllowed = function(user_id, permissions) {
+    switch(permissions) {
+      case 'public':
+        return true;
+        break;
+      case 'owner':
+        return (user_id == user.id)
+        break;
+      case 'owner_or_admin':
+        return ((user_id == user.id) || is_admin)
+      case 'admin':
+        return (is_admin);
+      default: return true;
+    }
+    if(permissions = 'public') {
+      return true;
+    }
     if(user_id == user.id) {
       return true;
     }
