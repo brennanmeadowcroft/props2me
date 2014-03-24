@@ -1,4 +1,8 @@
 <!-- display graphs about progress and any/all comments provided -->
+<div class="flash-messages" ng-hide="messages.length == 0">
+    <li ng-repeat="message in messages" ng-class="message.style">{{ message.text }}</li>
+  </ul>
+</div>
 <h1>{{ goal.description }}</h1>
 <p>{{ user.first_name }} {{ user.last_name }}</p>
 <p>{{ goal.prop_count }}</p>

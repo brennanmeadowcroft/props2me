@@ -1,4 +1,4 @@
-var props = angular.module('props', ['ngRoute', 'ngResource', 'restangular', 'ui.bootstrap', 'auth', 'login', 'user']);
+var props = angular.module('props', ['ngRoute', 'ngResource', 'restangular', 'ui.bootstrap', 'props-flash', 'user']);
 
 props.config(['$routeProvider',
   function($routeProvider, RestangularProvider) {
@@ -79,23 +79,27 @@ props.config(['$routeProvider',
   }
 ]);
 
-props.run(['$rootScope', 'UserService', '$location', '$route', function($rootScope, UserService, $location, $route){
+props.run(['$rootScope', 'UserService', '$location', '$route', 'FlashService', function($rootScope, UserService, $location, $route, FlashService){
   // Everytime the route in our app changes check auth status
   $rootScope.$on("$routeChangeStart", function(event, next, current, requirePermissions) {
     user_id = null;
     user_id = next.pathParams.userId;
-      // if you're logged out send to another page.
-      if (!UserService.isPermitted(next.requirePermissions, user_id)) {
-        // If the user is already logged in, send them to users
-        if(UserService.getUserAuthentication()) {
-          $location.path('/users');
-          event.preventDefault();
-        }
-        else {
-          // If the user is not logged in, send them to login
-          $location.path('/login');
-          // Keep angular from completing the intended route
-          event.preventDefault();
+      if(next.requirePermissions != 'public') {
+        // if you're logged out send to another page.
+        if(!UserService.isPermitted(next.requirePermissions, user_id)) {
+          // If the user is already logged in, send them to users
+          if(UserService.getUserAuthentication()) {
+            FlashService.flash('You are not authorized', 'warning');
+            $location.path('/users');
+            event.preventDefault();
+          }
+          else if (!UserService.getUserAuthentication()) {
+            FlashService.flash('You need to login to do that', 'warning');
+            // If the user is not logged in, send them to login
+            $location.path('/login');
+            // Keep angular from completing the intended route
+            event.preventDefault();
+          }
         }
       }
   });

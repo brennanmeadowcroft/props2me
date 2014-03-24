@@ -21,6 +21,14 @@ angular.module('user', [])
       default: return false;
     }
   }
+  this.isCurrentUser = function(user_id) {
+    if(user_id == user.id) {
+      return true;
+    }
+    else {
+      return false;
+    }
+  }
   this.isOwner = function(user_id) {
     if(is_authenticated && user.id == user_id) { return true; } else { return false; }
   }

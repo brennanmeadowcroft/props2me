@@ -1,4 +1,9 @@
 <div class="users">
+  <div class="flash-messages" ng-hide="messages.length == 0">
+      <li ng-repeat="message in messages" ng-class="message.style">{{ message.text }}</li>
+    </ul>
+  </div>
+
   <h1>Users</h1>
   <ul>
     <li ng-repeat="user in users">
