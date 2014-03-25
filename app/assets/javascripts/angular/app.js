@@ -60,8 +60,8 @@ props.config(['$routeProvider',
       }).
       when('/users/:userId/goals/:goalId', {
         templateUrl: 'partials/goals/show.html',
-        controller: 'GoalDetailController',
-        requirePermissions: 'public'
+        controller: 'UserGoalDetailController',
+        requirePermissions: 'owner'
       }).
       when('/users/:userId/goals/:goalId/edit', {
         templateUrl: 'partials/goals/edit.html',

@@ -12,6 +12,7 @@ class User < ActiveRecord::Base
 
   private
     def init
+      self.active ||= 0
       self.admin ||= 0
     end
 end

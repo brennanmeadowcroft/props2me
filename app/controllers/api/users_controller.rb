@@ -6,7 +6,7 @@ class Api::UsersController < ApplicationController
   before_filter :admin_user, only: [:delete]
 
   def index
-    @users = User.all
+    @users = User.all.where("active=?", 1)
     respond_to do |format|
       format.json { render json: @users }
     end

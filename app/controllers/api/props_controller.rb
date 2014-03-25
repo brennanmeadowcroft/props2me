@@ -39,17 +39,22 @@ class Api::PropsController < ApplicationController
     user = User.find_by_email(params[:email])
     # If a user can't be found but they provided an email
     if user.nil?
-      user = User.create(email: params[:email], active: 0)
-      # If a user can be created, set the id for the props otherwise set it blank
-      if user.save
-        uid = user.id
-      else
-        uid = nil
+      if params[:email].nil? # User did not provide an email, set to anonymous
+        uid = 1
+      else # User provided an email...
+        # Create a user using the given email but mark them inactive
+        user = User.create(email: params[:email], active: 0)
+        if user.save
+          # If a user can be created, set the id for the props otherwise set it blank
+          uid = user.id
+        else # User couldn't be saved, set it anonymous
+          uid = 1
+        end
       end
-    else
+    else # User could be found... set the user accordingly
       uid = user.id
     end
-    @prop.props_users.create(user_id: uid, anonymous_flag: params[:anonymous_flag], recipient_flag: 0)
+    @prop.props_users.create(user_id: uid, anonymous_flag: 1, recipient_flag: 0)
 
     respond_to do |format|
       if @prop.save
