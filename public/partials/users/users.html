@@ -7,7 +7,7 @@
   <h1>Users</h1>
   <ul>
     <li ng-repeat="user in users">
-      <img src="http://placekitten.com/50/50">
+      <img src="http://props2me.s3.amazonaws.com/images/avatars/{{user.first_name.toLowerCase()}}_{{user.last_name.toLowerCase()}}.jpg" width="50">
       <a href="#/users/{{ user.id }}">{{ user.first_name }} {{ user.last_name }}</a>
     </li>
   <ul>
