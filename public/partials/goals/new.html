@@ -2,12 +2,26 @@
     <li ng-repeat="message in messages" ng-class="message.style">{{ message.text }}</li>
   </ul>
 </div>
-<h1>Create A Goal</h1>
-<form>
-  <label for="goal_name">Goal Name:
-  <input type="text" name="name" ng-model="formData.name" /><br />
-  <label for="goal_description">Goal Description:
-  <input type="text" name="description" ng-model="formData.description" /><br />
-  <button type="submit" class="btn" ng-click="create()">Save</button>
-  <a href="#/users/{{user_id}}">Cancel</a>
-</form>
+<div class="col-md-6 col-md-offset-3">
+  <h1>Create A Goal</h1>
+  <form class="form-horizontal" role="form">
+    <div class="form-group">
+      <label for="goal_name" class="col-sm-3 control-label">Goal Name:</label>
+      <div class="col-sm-9">
+        <input type="text" name="name" ng-model="formData.name" class="form-control" />
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="goal_description" class="col-sm-3 control-label">Description:</label>
+      <div class="col-sm-9">
+        <input type="text" name="description" ng-model="formData.description" class="form-control" />
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="col-sm-offset-3 col-sm-10">
+        <button type="submit" class="btn btn-default" ng-click="create()">Save</button>
+        <a href="#/users/{{user_id}}">Cancel</a>
+      </div>
+    </div>
+  </form>
+</div>

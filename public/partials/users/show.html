@@ -1,7 +1,7 @@
 <div class="user row">
   <div class="sidebar col-md-2">
     <div class="avatar row">
-      <img src="http://placekitten.com/150/150" class="text-center"/>
+      <img ng-src="http://props2me.s3.amazonaws.com/images/avatars/{{user.first_name.toLowerCase()}}_{{user.last_name.toLowerCase()}}.jpg" class="text-center" width="150"/>
     </div>
     <div class="row menu" ng-show="isAllowed('owner')">
       <ul>
@@ -23,22 +23,29 @@
     <br />
     <div class="goals col-md-11">
       <h3>Goals:</h3>
-      <accordion close-others="oneAtATime">
-        <accordion-group ng-repeat="goal in goals" heading="{{goal.name}}">
-          <div class="col-md-5">
-            <p class="goal-description">{{ goal.description }}</p>
-          </div>
-          <div class="col-md-5">
-            <p class="prop-count">Number of Props: <span class="count">{{ goal.props_count }}</span></p>
-          </div>
-          <div class="col-md-2">
-            <p>
-              <a href="#/props/new?uid={{ user.id }}&gid={{ goal.id }}">Give Props</a> |
-              <a ng-click="open(1)">Edit Goal</a>
-            </p>
-          </div>
-        </accordian-group>
-      </accordion>
+      <div ng-if="goals.length > 0">
+        <accordion close-others="oneAtATime">
+          <accordion-group ng-repeat="goal in goals" heading="{{goal.name}}">
+            <div class="col-md-5">
+              <p class="goal-description">{{ goal.description }}</p>
+            </div>
+            <div class="col-md-4">
+              <p class="prop-count">Number of Props: <span class="count">{{ goal.props_count }}</span></p>
+            </div>
+            <div class="col-md-3">
+              <p class="pull-right">
+                <a href="#/props/new?uid={{ user.id }}&gid={{ goal.id }}">Give Props</a>
+                <span ng-show="isAllowed('owner_or_admin')">
+                  | <a ng-click="open(goal.id)">Edit Goal</a>
+                </span>
+              </p>
+            </div>
+          </accordian-group>
+        </accordion>
+      </div>
+      <div ng-if="goals.length == 0">
+        <p>You have no goals!</p>
+      </div>
     </div>
     <div class="badges col-md-11" ng-show="isAllowed('owner')">
       <h3>Badges:</h3>

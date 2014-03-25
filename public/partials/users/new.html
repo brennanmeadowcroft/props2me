@@ -4,22 +4,53 @@
 </div>
 <div class="user row">
   <div class="profile col-md-12">
-    <h1>Create a user!</h1>
-    <form ng-submit="add()">
-      <label for="first_name">First Name:
-      <input type="text" name="[user][first_name]" ng-model="new_user.first_name" /><br />
-      <label for="last_name">Last Name:
-      <input type="text" name="[user][last_name]" ng-model="new_user.last_name" /><br />
-      <label for="email">Email:
-      <input type="text" name="[user][email]" ng-model="new_user.email" /><br />
-      <label for="position">Position:
-      <input type="text" name="[user][position]" ng-model="new_user.position" /><br />
-      <label for="password">Password:
-      <input type="password" name="[user][password]" ng-model="new_user.password" /><br />
-      <label for="password">Confirm Password:
-      <input type="password" name="[user][password_confirmation]" ng-model="new_user.password_confirmation" /><br />
-      <button type="submit" class="btn">Save</button>
-    </form>
+    <div class="col-md-4 col-md-offset-1" ng-controller="UsersController">
+      <h2>Sign Up!</h2>
+      <hr>
+      <form class="form-horizontal" role="form" ng-submit="add()">
+        <div class="form-group">
+          <label for="first_name" class="col-sm-4 control-input">First Name:</label>
+          <div class="col-sm-7">
+            <input type="text" class="form-control" name="[user][first_name]" ng-model="new_user.first_name" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="last_name" class="col-sm-4 control-input">Last Name:</label>
+          <div class="col-sm-7">
+            <input type="text" class="form-control" name="[user][last_name]" ng-model="new_user.last_name" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="email" class="col-sm-4 control-input">Email:</label>
+          <div class="col-sm-7">
+            <input type="text" class="form-control" name="[user][email]" ng-model="new_user.email" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="position" class="col-sm-4 control-input">Position:</label>
+          <div class="col-sm-7">
+            <input type="text" class="form-control" name="[user][position]" ng-model="new_user.position" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="password" class="col-sm-4 control-input">Password:</label>
+          <div class="col-sm-7">
+            <input type="password" class="form-control" name="[user][password]" ng-model="new_user.password" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="password" class="col-sm-4 control-input">Confirm:</label>
+          <div class="col-sm-7">
+            <input type="password" class="form-control" name="[user][password_confirmation]" ng-model="new_user.password_confirmation" />
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="col-sm-offset-4 col-sm-7">
+            <button type="submit" class="btn btn-default">Get Started</button>
+          </div>
+        </div>
+      </form>
+    </div>
   </div>
 </div>
 {{ new_user }}
