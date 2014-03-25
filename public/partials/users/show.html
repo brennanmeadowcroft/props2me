@@ -29,14 +29,17 @@
             <div class="col-md-5">
               <p class="goal-description">{{ goal.description }}</p>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-3">
               <p class="prop-count">Number of Props: <span class="count">{{ goal.props_count }}</span></p>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-4">
               <p class="pull-right">
                 <a href="#/props/new?uid={{ user.id }}&gid={{ goal.id }}">Give Props</a>
                 <span ng-show="isAllowed('owner_or_admin')">
                   | <a ng-click="open(goal.id)">Edit Goal</a>
+                </span>
+                <span ng-show="isAllowed('owner')">
+                  | <a href="#/users/{{ user.id }}/goals/{{ goal.id }}">Details</a>
                 </span>
               </p>
             </div>

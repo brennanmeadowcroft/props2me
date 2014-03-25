@@ -148,6 +148,9 @@ props.controller('PropsEditController', function($scope, $routeParams, $location
 props.controller('GoalDetailController', function($scope, $routeParams, $location, $modalInstance, Restangular, UserService, goal, FlashService) {
   $scope.current_user = UserService.getCurrentUser();
   // Goal is passed when the modal window is created
+  if(typeOf(goal) == undefined) {
+    goal = $routeParams.goalId;
+  }
   $scope.goal_id = goal;
   var singleGoal = Restangular.one('goals', goal);
   singleGoal.get().then(function(goal) {
@@ -168,6 +171,24 @@ props.controller('GoalDetailController', function($scope, $routeParams, $locatio
 
   $scope.cancel = function () {
     $modalInstance.dismiss('cancel');
+  };
+});
+
+props.controller('UserGoalDetailController', function($scope, $routeParams, $location, Restangular, UserService, FlashService) {
+  $scope.current_user = UserService.getCurrentUser();
+  var singleGoal = Restangular.one('goals', $routeParams.goalId);
+  singleGoal.get().then(function(goal) {
+    $scope.goal = goal;
+  });
+
+  $scope.isAllowed = function(permissions) {
+    return UserService.isPermitted(permissions, $routeParams.userId);
+  }
+
+  $scope.save = function() {
+    $scope.goal.put({'Authorization':'Token', 'access_token':$scope.current_user.api_token}).then(function() {
+      FlashService.flash('Saved!')
+    });
   };
 });
 

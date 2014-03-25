@@ -1,8 +1,30 @@
-<!-- display graphs about progress and any/all comments provided -->
-<div class="flash-messages" ng-hide="messages.length == 0">
-    <li ng-repeat="message in messages" ng-class="message.style">{{ message.text }}</li>
-  </ul>
+<div class="user row">
+  <div class="sidebar col-md-2">
+    <div class="avatar row">
+      <img ng-src="http://props2me.s3.amazonaws.com/images/avatars/{{current_user.first_name.toLowerCase()}}_{{current_user.last_name.toLowerCase()}}.jpg" class="text-center" width="150"/>
+    </div>
+    <div class="row menu" ng-show="isAllowed('owner')">
+      <ul>
+        <li ng-show="isAllowed('owner_or_admin')"><a href="#/users/{{current_user.id}}/goals/new">Add New Goal</a></li>
+        <li ng-show="isAllowed('owner_or_admin')"><a href="#/users/{{current_user.id}}/edit">Edit Profile</a></li>
+        <li ng-show="isAllowed('owner')"><a href="#/users/{{current_user.id}}/change_pass">Change Password</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="profile col-md-10">
+    <div class="flash-messages" ng-hide="messages.length == 0">
+        <ul>
+          <li ng-repeat="message in messages" ng-class="message.style">{{ message.text }}</li>
+        </ul>
+      </ul>
+    </div>
+
+    <h1>{{ goal.description }}</h1>
+    <p>{{ goal.prop_count }}</p>
+    <h3>Feedback</h3>
+    <div class="col-md-10 col-offset-1" ng-repeat="prop in goal.props">
+      <p ng-repeat="p in prop.provider"><strong>{{ p.first_name }} says: </strong>
+      {{ prop.comments }}</p>
+    </div>
+  </div>
 </div>
-<h1>{{ goal.description }}</h1>
-<p>{{ user.first_name }} {{ user.last_name }}</p>
-<p>{{ goal.prop_count }}</p>
