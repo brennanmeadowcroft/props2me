@@ -14,5 +14,6 @@ class User < ActiveRecord::Base
     def init
       self.active ||= 0
       self.admin ||= 0
+      self.vanity_url = self.first_name.downcase + '-' + self.last_name.downcase
     end
 end

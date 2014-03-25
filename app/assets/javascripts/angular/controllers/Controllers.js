@@ -243,7 +243,7 @@ props.controller('LoginController', function($scope, $location, Restangular, Use
   $scope.logoutUser = function() {
     UserService.logoutUser();
     FlashService.flash('Logged Out!  See you later!');
-    $location.path('/users/');
+    $location.path('/');
   };
 });
 
