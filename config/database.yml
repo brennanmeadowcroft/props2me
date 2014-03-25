@@ -27,8 +27,9 @@ test:
   timeout: 5000
 
 production:
-  adapter: postgresql
-  encoding: unicode
-  database: props_prod
-  pool: 5
-  password:
+  adapter: mysql2
+  encoding: utf8
+  database: propsme_production
+  username: propsme_brennan
+  password: r3sum3
+  hostname: localhost
