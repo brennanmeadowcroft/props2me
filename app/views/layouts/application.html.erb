@@ -38,9 +38,9 @@
       </div>
       <div class="navbar-collapse collapse">
         <ul ng-controller="LoginController" class="nav navbar-nav navbar-right">
-          <li><a href="#/users/">Users</a></li>
           <li ng-if="authenticated()"><a href="#/users/{{current_user.id}}">Profile</a></li>
           <li ng-if="admin()"><a href="#/admin/">Admin</a></li>
+          <li ng-if="admin()"><a href="#/users/">Users</a></li>
           <li>
             <a href="" ng-if="authenticated()" ng-click="logoutUser()">Logout</a>
             <a href="#/login" ng-if="!authenticated()">Login</a>

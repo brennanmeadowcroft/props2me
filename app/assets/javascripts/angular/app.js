@@ -3,10 +3,10 @@ var props = angular.module('props', ['ngRoute', 'ngResource', 'restangular', 'ui
 props.config(['$routeProvider',
   function($routeProvider, RestangularProvider) {
     $routeProvider.
-      when('/', {
+      when('/users/all', {
         templateUrl: 'partials/users/users.html',
         controller: 'UsersController',
-        requirePermissions: 'public'
+        requirePermissions: 'admin'
       }).
       when('/users/new', {
         templateUrl: 'partials/users/new.html',
@@ -74,7 +74,7 @@ props.config(['$routeProvider',
         requirePermissions: 'public'
       }).
       otherwise({
-        redirectTo: '/'
+        redirectTo: '/login'
       })
   }
 ]);
@@ -87,10 +87,9 @@ props.run(['$rootScope', 'UserService', '$location', '$route', 'FlashService', f
       if(next.requirePermissions != 'public') {
         // if you're logged out send to another page.
         if(!UserService.isPermitted(next.requirePermissions, user_id)) {
-          // If the user is already logged in, send them to users
+          // If the user is already logged in, send them to their profile
           if(UserService.getUserAuthentication()) {
-            FlashService.flash('You are not authorized', 'warning');
-            $location.path('/users');
+            $location.path('/users/'+user_id);
             event.preventDefault();
           }
           else if (!UserService.getUserAuthentication()) {
