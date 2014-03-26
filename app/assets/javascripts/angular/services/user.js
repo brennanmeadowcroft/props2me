@@ -10,13 +10,13 @@ angular.module('user', [])
         return true;
         break;
       case 'owner':
-        if(is_authenticated && this.isOwner(user_id)) { return true; } else { return false; }
+        if(/*is_authenticated && */this.isOwner(user_id)) { return true; } else { return false; }
         break;
       case 'owner_or_admin':
-        if(is_authenticated && (is_admin || this.isOwner(user_id))) { return true; } else { return false; }
+        if(/*is_authenticated && */(this.getUserAdmin() || this.isOwner(user_id))) { return true; } else { return false; }
         break;
       case 'admin':
-        return (is_admin && is_authenticated);
+      return (this.getUserAdmin()/* && is_authenticated*/);
         break;
       default: return false;
     }
@@ -27,27 +27,23 @@ angular.module('user', [])
         return true;
         break;
       case 'owner':
-        return (user_id == user.id)
+        return this.isOwner(user_id)
         break;
       case 'owner_or_admin':
-        return ((user_id == user.id) || is_admin)
+        return (this.isOwner(user_id) || this.getUserAdmin())
       case 'admin':
-        return (is_admin);
-      default: return true;
+        return (this.getUserAdmin());
+      default: return false;
     }
-    if(permissions = 'public') {
-      return true;
-    }
-    if(user_id == user.id) {
+  };
+  this.isOwner = function(user_id) {
+    if(is_authenticated && ((user_id == user.id) || (user_id == user.vanity_url))) {
       return true;
     }
     else {
       return false;
     }
-  }
-  this.isOwner = function(user_id) {
-    if(is_authenticated && user.id == user_id) { return true; } else { return false; }
-  }
+  };
   this.getUserAuthentication = function() {
     return is_authenticated;
   };

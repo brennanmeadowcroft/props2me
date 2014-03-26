@@ -84,23 +84,9 @@ props.run(['$rootScope', 'UserService', '$location', '$route', 'FlashService', f
   $rootScope.$on("$routeChangeStart", function(event, next, current, requirePermissions) {
     user_id = null;
     user_id = next.pathParams.userId;
-      if(next.requirePermissions != 'public') {
-        // if you're logged out send to another page.
-        if(!UserService.isPermitted(next.requirePermissions, user_id)) {
-          // If the user is already logged in, send them to their profile
-          if(UserService.getUserAuthentication()) {
-            $location.path('/users/'+user_id);
-            event.preventDefault();
-          }
-          else if (!UserService.getUserAuthentication()) {
-            FlashService.flash('You need to login to do that', 'warning');
-            // If the user is not logged in, send them to login
-            $location.path('/login');
-            // Keep angular from completing the intended route
-            event.preventDefault();
-          }
-        }
-      }
+    if(!UserService.isPermitted(next.requirePermissions, user_id)) {
+      $location.path('/login');
+    }
   });
 }]);
 
