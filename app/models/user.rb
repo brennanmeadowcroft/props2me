@@ -12,7 +12,7 @@ class User < ActiveRecord::Base
 
   private
     def init
-      self.active ||= 0
+      self.active ||= 1
       self.admin ||= 0
       self.vanity_url = self.first_name.downcase + '-' + self.last_name.downcase
     end

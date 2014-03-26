@@ -2,18 +2,30 @@ props.controller('UsersController', function($scope, $location, Restangular, Use
   $scope.current_user = UserService.getCurrentUser();
   $scope.messages = FlashService.getMessages();
   $scope.new_user = {};
+  $scope.form_submitted = false;
+
   var allUsers = Restangular.all('users');
   allUsers.getList().then(function(users) {
     $scope.users = users;
   });
 
   $scope.add = function() {
-    var user_params = {"user":$scope.new_user};
-    allUsers.customPOST(elem=user_params).then(function(user) {
-      var user_path = '/users/'+user.vanity_url;
-      FlashService.flash('success', 'New User Created!');
-      $location.path(user_path);
-    });
+    if($scope.signup.$valid) {
+      var user_params = {"user":$scope.new_user};
+      allUsers.customPOST(elem=user_params).then(function(user) {
+        var user_path = '/users/'+user.vanity_url;
+        FlashService.flash('Welcome to Props2Me, ' + user.first_name + '!');
+
+        UserService.setUserAuthentication(true);
+        // Set the current user for use around the app
+        console.log(user);
+        UserService.setCurrentUser(user);
+        $location.path(user_path);
+      });
+    }
+    else {
+      $scope.form_submitted = true;
+    }
   };
 });
 
@@ -23,6 +35,7 @@ props.controller('UserDetailController', function($scope, $routeParams, $locatio
   $scope.current_user = UserService.getCurrentUser();
   var singleUser = Restangular.one('users', $routeParams.userId);
   $scope.url_id = $routeParams.userId;
+  $scope.form_submitted = false;
 
   $scope.refreshUser = function() {
     // Create this function so that I can refresh my user info at will rather than on load
@@ -59,25 +72,35 @@ props.controller('UserDetailController', function($scope, $routeParams, $locatio
     });
   };
   $scope.save = function() {
-    $scope.user.put({'Authorization':'Token', 'access_token':$scope.current_user.api_token}).then(function() {
-      FlashService.flash('User Saved Successfully');
-      var user_path = '/users/'+$scope.user.vanity_url;
-      $location.path(user_path);
-    });
+    if($scope.edit_user.$valid) {
+      $scope.user.put({'Authorization':'Token', 'access_token':$scope.current_user.api_token}).then(function() {
+        FlashService.flash('User Saved Successfully');
+        var user_path = '/users/'+$scope.user.vanity_url;
+        $location.path(user_path);
+      });
+    }
+    else {
+      $scope.form_submitted = true;
+    }
   };
   $scope.changePassword = function() {
-    var new_creds = {"email":$scope.user.email,
-                    "old_password":$scope.credentials.old_password,
-                    "password":$scope.credentials.new_password,
-                    "password_confirmation":$scope.credentials.new_password_confirmation};
+    if($scope.change_pass.$valid) {
+      var new_creds = {"email":$scope.user.email,
+                      "old_password":$scope.credentials.old_password,
+                      "password":$scope.credentials.new_password,
+                      "password_confirmation":$scope.credentials.new_password_confirmation};
 
-    var password_path = 'change_password';
-    console.log($scope.current_user.api_token);
-    singleUser.customPUT(elem=new_creds, path=password_path, headers={'Authorization':'Token', 'access_token':$scope.current_user.api_token}).then(function() {
-      FlashService.flash('Password Changed');
-      var user_path = '/users/'+$scope.user.vanity_url;
-      $location.path(user_path);
-    })
+      var password_path = 'change_password';
+      console.log($scope.current_user.api_token);
+      singleUser.customPUT(elem=new_creds, path=password_path, headers={'Authorization':'Token', 'access_token':$scope.current_user.api_token}).then(function() {
+        FlashService.flash('Password Changed');
+        var user_path = '/users/'+$scope.user.vanity_url;
+        $location.path(user_path);
+      });
+    }
+    else {
+      $scope.form_submitted = true;
+    }
   }
   // Todo: Get this working... it isn't recognizing custom put
   $scope.completeGoal = function(goal_id) {
@@ -125,9 +148,7 @@ props.controller('PropsEditController', function($scope, $routeParams, $location
   oneGoal.get().then(function(goal) {
     $scope.goal = goal;
   });
-  console.log($scope.goal);
-  console.log($scope.user);
-  $scope.create = function() {
+  $scope.create = function(form_data) {
     new_props = {
                   "goal_id": $scope.goal.id,
                   "user_id": $scope.user.id,
@@ -195,6 +216,7 @@ props.controller('NewGoalController', function($scope, $routeParams, $location, 
     $scope.current_user = UserService.getCurrentUser();
     $scope.user_id = $routeParams.userId;
     $scope.formData = {};
+    $scope.form_submitted = false;
 
     var singleUser = Restangular.one('users', $routeParams.userId);
     singleUser.get({'Authorization':'Token', 'access_token':$scope.current_user.api_token}).then(function(user) {
@@ -203,15 +225,20 @@ props.controller('NewGoalController', function($scope, $routeParams, $location, 
 
     var allGoals = Restangular.all('goals');
     $scope.create = function() {
-      new_goal = {
-                    "user_id": $scope.user.id,
-                    "name": $scope.formData.name,
-                    "description": $scope.formData.description
-                  };
-      allGoals.post(new_goal, headers={'Authorization':'Token', 'access_token':$scope.current_user.api_token});
-      FlashService.flash('Goal Created Successfully!');
-      user_path = '/users/' + $scope.current_user.vanity_url;
-      $location.path(user_path);
+      if($scope.goal_form.$valid) {
+        new_goal = {
+                      "user_id": $scope.user.id,
+                      "name": $scope.formData.name,
+                      "description": $scope.formData.description
+                    };
+        allGoals.post(new_goal, headers={'Authorization':'Token', 'access_token':$scope.current_user.api_token});
+        FlashService.flash('Goal Created Successfully!');
+        user_path = '/users/' + $scope.current_user.vanity_url;
+        $location.path(user_path);
+      }
+      else {
+        $scope.form_submitted = true;
+      }
     };
 
 });
