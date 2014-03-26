@@ -5,9 +5,9 @@
     </div>
     <div class="row menu" ng-show="isAllowed('owner')">
       <ul>
-        <li ng-show="isAllowed('owner_or_admin')"><a href="#/users/{{user.id}}/goals/new">Add New Goal</a></li>
-        <li ng-show="isAllowed('owner_or_admin')"><a href="#/users/{{user.id}}/edit">Edit Profile</a></li>
-        <li ng-show="isAllowed('owner')"><a href="#/users/{{user.id}}/change_pass">Change Password</a></li>
+        <li ng-show="isAllowed('owner_or_admin')"><a href="#/users/{{user.vanity_url}}/goals/new">Add New Goal</a></li>
+        <li ng-show="isAllowed('owner_or_admin')"><a href="#/users/{{user.vanity_url}}/edit">Edit Profile</a></li>
+        <li ng-show="isAllowed('owner')"><a href="#/users/{{user.vanity_url}}/change_pass">Change Password</a></li>
       </ul>
     </div>
   </div>
@@ -36,7 +36,7 @@
               <p class="pull-right">
                 <a href="#/props/new?uid={{ user.id }}&gid={{ goal.id }}">Give Props</a>
                 <span ng-show="isAllowed('owner_or_admin')">
-                  | <a ng-click="open(goal.id)">Edit Goal</a>
+                  | <a href="" ng-click="open(goal.id)">Edit Goal</a>
                 </span>
                 <span ng-show="isAllowed('owner')">
                   | <a href="#/users/{{ user.id }}/goals/{{ goal.id }}">Details</a>

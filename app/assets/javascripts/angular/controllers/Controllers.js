@@ -10,7 +10,7 @@ props.controller('UsersController', function($scope, $location, Restangular, Use
   $scope.add = function() {
     var user_params = {"user":$scope.new_user};
     allUsers.customPOST(elem=user_params).then(function(user) {
-      var user_path = '/users/'+user.id;
+      var user_path = '/users/'+user.vanity_url;
       FlashService.flash('success', 'New User Created!');
       $location.path(user_path);
     });
@@ -21,10 +21,8 @@ props.controller('UserDetailController', function($scope, $routeParams, $locatio
   $scope.credentials = {};
   $scope.messages = FlashService.getMessages();
   $scope.current_user = UserService.getCurrentUser();
-  $scope.isAllowed = function(permissions) {
-    return UserService.isPermitted(permissions, $routeParams.userId);
-  }
   var singleUser = Restangular.one('users', $routeParams.userId);
+  $scope.url_id = $routeParams.userId;
 
   $scope.refreshUser = function() {
     // Create this function so that I can refresh my user info at will rather than on load
@@ -34,6 +32,10 @@ props.controller('UserDetailController', function($scope, $routeParams, $locatio
       $scope.badges = user.badges;
     });
   };
+
+  $scope.isAllowed = function(permissions) {
+    return UserService.isPermitted(permissions, $routeParams.userId);
+  }
 
   $scope.select_goal = function(goal_id) {
     $scope.selected_goal = goal_id;
@@ -59,7 +61,7 @@ props.controller('UserDetailController', function($scope, $routeParams, $locatio
   $scope.save = function() {
     $scope.user.put({'Authorization':'Token', 'access_token':$scope.current_user.api_token}).then(function() {
       FlashService.flash('User Saved Successfully');
-      var user_path = '/users/'+$scope.user.id;
+      var user_path = '/users/'+$scope.user.vanity_url;
       $location.path(user_path);
     });
   };
@@ -73,7 +75,7 @@ props.controller('UserDetailController', function($scope, $routeParams, $locatio
     console.log($scope.current_user.api_token);
     singleUser.customPUT(elem=new_creds, path=password_path, headers={'Authorization':'Token', 'access_token':$scope.current_user.api_token}).then(function() {
       FlashService.flash('Password Changed');
-      var user_path = '/users/'+$scope.user.id;
+      var user_path = '/users/'+$scope.user.vanity_url;
       $location.path(user_path);
     })
   }
@@ -135,7 +137,7 @@ props.controller('PropsEditController', function($scope, $routeParams, $location
                 };
     allProps.post(new_props);
     FlashService.flash('Props Added!  Thanks!');
-    user_path = '/users/' + $scope.user.id;
+    user_path = '/users/' + $scope.user.vanity_url;
     $location.path(user_path);
   };
   $scope.toggleAnon = function() {
@@ -148,9 +150,6 @@ props.controller('PropsEditController', function($scope, $routeParams, $location
 props.controller('GoalDetailController', function($scope, $routeParams, $location, $modalInstance, Restangular, UserService, goal, FlashService) {
   $scope.current_user = UserService.getCurrentUser();
   // Goal is passed when the modal window is created
-  if(typeOf(goal) == undefined) {
-    goal = $routeParams.goalId;
-  }
   $scope.goal_id = goal;
   var singleGoal = Restangular.one('goals', goal);
   singleGoal.get().then(function(goal) {
@@ -196,16 +195,22 @@ props.controller('NewGoalController', function($scope, $routeParams, $location, 
     $scope.current_user = UserService.getCurrentUser();
     $scope.user_id = $routeParams.userId;
     $scope.formData = {};
+
+    var singleUser = Restangular.one('users', $routeParams.userId);
+    singleUser.get({'Authorization':'Token', 'access_token':$scope.current_user.api_token}).then(function(user) {
+      $scope.user = user;
+    });
+
     var allGoals = Restangular.all('goals');
     $scope.create = function() {
       new_goal = {
-                    "user_id": $scope.user_id,
+                    "user_id": $scope.user.id,
                     "name": $scope.formData.name,
                     "description": $scope.formData.description
                   };
       allGoals.post(new_goal, headers={'Authorization':'Token', 'access_token':$scope.current_user.api_token});
       FlashService.flash('Goal Created Successfully!');
-      user_path = '/users/' + $scope.user_id;
+      user_path = '/users/' + $scope.current_user.vanity_url;
       $location.path(user_path);
     };
 
@@ -231,7 +236,7 @@ props.controller('LoginController', function($scope, $location, Restangular, Use
       $scope.current_user = user;
       FlashService.flash('Welcome Back, '+user.first_name);
 
-      user_path = '/users/'+$scope.current_user.id
+      user_path = '/users/'+$scope.current_user.vanity_url
       $location.path(user_path);
     }, function(response) {
       // There was a problem logging in... notify the user

@@ -25,7 +25,7 @@
   <%= csrf_meta_tags %>
 </head>
 <body ng-app="props">
-  <div class="navbar navbar-default" role="navigation">
+  <div ng-controller="LoginController" class="navbar navbar-default" role="navigation">
     <div class="container-fluid">
       <div class="navbar-header">
         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -34,13 +34,13 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="#">Props2Me</a>
+        <a class="navbar-brand" href="#/users/{{current_user.vanity_url}}">Props2Me</a>
       </div>
       <div class="navbar-collapse collapse">
-        <ul ng-controller="LoginController" class="nav navbar-nav navbar-right">
-          <li ng-if="authenticated()"><a href="#/users/{{current_user.id}}">Profile</a></li>
+        <ul class="nav navbar-nav navbar-right">
+          <li ng-if="authenticated()"><a href="#/users/{{current_user.vanity_url}}">Profile</a></li>
           <li ng-if="admin()"><a href="#/admin/">Admin</a></li>
-          <li ng-if="admin()"><a href="#/users/">Users</a></li>
+          <li ng-if="admin()"><a href="#/users/all">Users</a></li>
           <li>
             <a href="" ng-if="authenticated()" ng-click="logoutUser()">Logout</a>
             <a href="#/login" ng-if="!authenticated()">Login</a>
