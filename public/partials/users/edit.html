@@ -21,23 +21,31 @@
 
     <div class="profile col-md-10">
       <h1>Edit Profile</h1>
-      <form class="form-horizontal" role="form">
-        <div class="form-group">
+      <form novalidate name="edit_user" class="form-horizontal" role="form" ng-submit="save()">
+        <div ng-show="form_submitted">
+          <div class="alert alert-danger" ng-show="edit_user.user_email.$error.required">Email is required!</div>
+          <div class="alert alert-danger" ng-show="edit_user.user_first.$error.required">First Name is required!</div>
+          <div class="alert alert-danger" ng-show="edit_user.user_last.$error.required">Last Name is required!</div>
+        </div>
+        <div class="form-group has-feedback">
           <label for="first_name" class="col-sm-2 control-label">First Name:</label>
           <div class="col-sm-9">
-            <input type="text" name="first_name" ng-model="user.first_name" class="form-control" />
+            <input type="text" name="user_first" ng-model="user.first_name" class="form-control" required />
+            <span ng-show="!edit_user.user_first.$error.required" class="glyphicon glyphicon-ok form-control-feedback"></span>
           </div>
         </div>
-        <div class="form-group">
+        <div class="form-group has-feedback">
           <label for="last_name" class="col-sm-2 control-label">Last Name:</label>
           <div class="col-sm-9">
-            <input type="text" name="last_name" ng-model="user.last_name" class="form-control" />
+            <input type="text" name="user_last" ng-model="user.last_name" class="form-control" />
+            <span ng-show="!edit_user.user_last.$error.required" class="glyphicon glyphicon-ok form-control-feedback"></span>
           </div>
         </div>
-        <div class="form-group">
+        <div class="form-group has-feedback">
           <label for="email" class="col-sm-2 control-label">Email:</label>
           <div class="col-sm-9">
-            <input type="text" name="email" ng-model="user.email" class="form-control" />
+            <input type="text" name="user_email" ng-model="user.email" class="form-control" required >
+            <span ng-show="!edit_user.user_email.$error.required" class="glyphicon glyphicon-ok form-control-feedback"></span>
           </div>
         </div>
         <div class="form-group">
@@ -48,7 +56,7 @@
         </div>
         <div class="form-group">
           <div class="col-sm-9 col-sm-offset-2">
-            <button type="submit" class="btn btn-default" ng-click="save()">Save</button>
+            <button type="submit" class="btn btn-primary">Save</button>
             <a href="#/users/{{user.id}}" class="btn">Cancel</a>
           </div>
         </div>

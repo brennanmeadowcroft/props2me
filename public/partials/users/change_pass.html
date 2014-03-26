@@ -1,33 +1,58 @@
-<div class="flash-messages" ng-hide="messages.length == 0">
-    <li ng-repeat="message in messages" ng-class="message.style">{{ message.text }}</li>
-  </ul>
-</div>
 <div class="user row">
   <div class="sidebar col-md-2">
     <div class="avatar row">
-      <img src="http://placekitten.com/150/150" class="text-center"/>
+      <img ng-src="http://props2me.s3.amazonaws.com/images/avatars/{{user.first_name.toLowerCase()}}_{{user.last_name.toLowerCase()}}.jpg" class="text-center" width="150"/>
     </div>
-    <div class="row menu">
+    <div class="row menu" ng-show="isAllowed('owner')">
       <ul>
-        <li><a href="#/props/new?uid={{user.id}}">Give Props</a></li>
-        <li><a href="#/users/{{user.id}}/edit">Edit Profile</a></li>
-        <li><a href="#/users/{{user.id}}/change_pass">Change Password</a></li>
+        <li ng-show="isAllowed('owner_or_admin')"><a href="#/users/{{user.vanity_url}}/goals/new">Add New Goal</a></li>
+        <li ng-show="isAllowed('owner_or_admin')"><a href="#/users/{{user.vanity_url}}/edit">Edit Profile</a></li>
+        <li ng-show="isAllowed('owner')"><a href="#/users/{{user.vanity_url}}/change_pass">Change Password</a></li>
       </ul>
     </div>
   </div>
   <div class="profile col-md-10">
+    <div class="flash-messages" ng-hide="messages.length == 0">
+        <ul>
+          <li ng-repeat="message in messages" ng-class="message.style">{{ message.text }}</li>
+        </ul>
+      </ul>
+    </div>
+
     <h1>Change Password</h1>
-    <form ng-submit="changePassword()">
-      <label for="old_password">Old Password:
-      <input type="text" name="old_password" ng-model="credentials.old_password"/><br />
-      <label for="last_name">New Password:
-      <input type="text" name="password" ng-model="credentials.new_password"/><br />
-      <label for="email">Confirm New Password:
-      <input type="text" name="password_confirmation" ng-model="credentials.new_password_confirmation"/><br />
-      <button type="submit" class="btn">Save</button>
-      <a href="#/users/{{user.id}}" class="btn">Cancel</a>
+    <form novalidate class="form-horizontal" role="form" name="change_pass" ng-submit="changePassword()">
+      <div ng-show="form_submitted">
+        <div class="alert alert-danger" ng-show="change_pass.old_password.$error.required">Your old password is required!</div>
+        <div class="alert alert-danger" ng-show="change_pass.password.$error.required">A new password is required!</div>
+        <div class="alert alert-danger" ng-show="change_pass.password_confirmation.$error.required">You must confirm the new password!</div>
+      </div>
+      <div class="form-group has-feedback">
+        <label for="old_password" class="col-sm-3 control-label">Old Password:</label>
+        <div class="col-sm-9">
+          <input type="password" name="old_password" ng-model="credentials.old_password" class="form-control" required >
+          <span ng-show="!change_pass.old_password.$error.required" class="glyphicon glyphicon-ok form-control-feedback"></span>
+        </div>
+      </div>
+      <div class="form-group has-feedback">
+        <label for="password" class="col-sm-3 control-label">New Password:</label>
+        <div class="col-sm-9">
+          <input type="password" name="password" ng-model="credentials.new_password" class="form-control" required>
+          <span ng-show="!change_pass.password.$error.required" class="glyphicon glyphicon-ok form-control-feedback"></span>
+        </div>
+      </div>
+      <div class="form-group has-feedback">
+        <label for="password_confirmation" class="col-sm-3 control-label">Confirm New Password:</label>
+        <div class="col-sm-9">
+          <input type="password" name="password_confirmation" ng-model="credentials.new_password_confirmation" class="form-control" required>
+          <span ng-show="!change_pass.password_confirmation.$error.required" class="glyphicon glyphicon-ok form-control-feedback"></span>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="col-sm-9 col-sm-offset-3">
+          <button type="submit" class="btn btn-primary">Save</button>
+          <a href="#/users/{{user.id}}" class="btn">Cancel</a>
+        </div>
+      </div>
     </form>
   </div>
 </div>
-
-{{ credentials }}
